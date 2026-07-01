@@ -3,7 +3,7 @@
 
   # Eidolon
 
-  **A premium, full-stack PC game store** — cinematic dark UI with Apple-style liquid-glass
+  **A premium, full-stack PC game store** ,cinematic dark UI with Apple-style liquid-glass
   effects, a scroll-driven onboarding journey, Stripe checkout & subscriptions, an AI shopping
   assistant, and a full admin dashboard.
 
@@ -16,22 +16,22 @@
 
 **Storefront**
 - Cinematic, auto-rotating hero and **sliding banner carousels**
-- Home feed of real categories (New Releases, Top Rated, per-genre rows, Best Value) — all live data
+- Home feed of real categories (New Releases, Top Rated, per-genre rows, Best Value) - all live data
 - **Browse by genre** tiles backed by real cover art
-- Full catalog with search, genre/platform/price filters, sorting, and pagination
-- Rich game detail pages with screenshots, trailers, system requirements, and reviews
+- Full catalog with search, genre/platform/price filters, sorting and pagination
+- Rich game detail pages with screenshots, trailers, system requirements and reviews
 - A custom **liquid-glass cursor lens** that refracts the UI beneath it
 
 **Accounts & commerce**
 - JWT auth (access + refresh) with a scroll-driven **onboarding** flow for new users
 - Cart, **Stripe Checkout** (one-time purchases *and* monthly subscriptions)
-- Library, wishlist, order history, and billing
+- Library, wishlist, order history and billing
 - Avatar upload, profile editing
 - Star ratings & reviews with helpful-votes
 
 **AI & admin**
 - **AI shopping assistant** (Google Gemini) that recommends games and can add to cart / start checkout
-- Admin dashboard: manage games (with image uploads), view users, and revenue analytics
+- Admin dashboard: manage games (with image uploads), view users and revenue analytics
 - Game catalog auto-synced from the **RAWG** API on a schedule
 
 ---
@@ -78,10 +78,10 @@
 ### Prerequisites
 - **Node.js 20+**
 - A free **MongoDB Atlas** cluster — https://www.mongodb.com/atlas
-- A **Stripe** account (test mode is fine) — https://dashboard.stripe.com
+- A **Stripe** account (test mode is fine) - https://dashboard.stripe.com
 - A **RAWG** API key (free) — https://rawg.io/apidocs
-- A **Google Gemini** API key (free tier) — https://aistudio.google.com/apikey
-- *(optional)* the **Stripe CLI** for local webhooks — https://stripe.com/docs/stripe-cli
+- A **Google Gemini** API key (free tier) - https://aistudio.google.com/apikey
+- *(optional)* the **Stripe CLI** for local webhooks - https://stripe.com/docs/stripe-cli
 
 ### 1. Install
 ```bash
@@ -92,7 +92,7 @@ cd ../client && npm install
 ```
 
 ### 2. Configure credentials
-Secrets are **never committed** — each app ships a `.env.example`. Copy it to a real `.env`
+Secrets are **never committed** - each app ships a `.env.example`. Copy it to a real `.env`
 and paste your own keys.
 
 ```bash
@@ -127,7 +127,7 @@ npm run sync:games        # (optional) pull the game catalog from RAWG
 ```
 
 ### 4. Run
-**One click (Windows):** double-click `start-dev.bat` — opens the API, web client, and Stripe listener.
+**One click (Windows):** double-click `start-dev.bat` - opens the API, web client and Stripe listener.
 
 **Manual:**
 ```bash
@@ -139,7 +139,7 @@ cd client && npm run dev
 stripe listen --forward-to localhost:4000/api/webhooks/stripe
 ```
 
-Open **http://localhost:5173**. Test card: `4242 4242 4242 4242`, any future expiry, any CVC.
+Open **http://localhost:5173**. Test card: `4242 4242 4242 4242`, any future expiry any CVC.
 
 > **First admin:** register an account, then set its `role` to `ADMIN` in your database
 > (Atlas UI or a small Prisma script). Admins get the **Admin** dashboard link in the navbar.
@@ -180,9 +180,9 @@ More docs: [`RUN-LOCAL.md`](./RUN-LOCAL.md) · [`DATABASE.md`](./DATABASE.md)
 
 ## 🔒 Security
 
-Real secrets live **only** in `.env` files, which are gitignored — never commit them.
+Real secrets live **only** in `.env` files, which are gitignored - never commit them.
 If a key is ever exposed, rotate it in the provider's dashboard.
 
 ---
 
-<div align="center"><sub>Built with ❤️ — Eidolon</sub></div>
+<div align="center"><sub>Made by Daniyaluh with ❤️ — Eidolon</sub></div>
