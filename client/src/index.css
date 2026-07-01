@@ -1,0 +1,296 @@
+@import url("https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap");
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+
+  /* Deep near-black base; elevated surfaces sit just above it. */
+  --bg-base: #08080a;
+  --bg-elev: #141417;
+  --ink: #f4f4f5;
+  --ink-soft: #a1a1aa;
+  --ink-faint: #71717a;
+  --hair: rgba(255, 255, 255, 0.1);
+  --glass-tint: rgba(255, 255, 255, 0.06);
+}
+
+html {
+  height: 100%;
+}
+
+/* min-height (not height) so the document grows with its content — otherwise
+   body/#root stay locked to the viewport height and smooth-scroll libraries
+   measure the wrong scroll limit and stop short of the bottom. */
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  @apply antialiased;
+  font-family: "General Sans", system-ui, sans-serif;
+  color: var(--ink);
+  background-color: var(--bg-base);
+}
+
+/* Clean monochrome charcoal like the reference: a soft neutral light from the
+   top and a gentle vignette give depth without colour — the content/art is the
+   only colour on the page. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(70% 55% at 50% -8%, rgba(255, 255, 255, 0.04), transparent 60%),
+    radial-gradient(45% 45% at 100% 100%, rgba(255, 255, 255, 0.015), transparent 60%),
+    radial-gradient(120% 120% at 50% 30%, transparent 50%, rgba(0, 0, 0, 0.55) 100%),
+    linear-gradient(180deg, #0c0c0e 0%, #08080a 55%, #050506 100%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@theme {
+  --font-display: "General Sans", system-ui, sans-serif;
+}
+
+/* ---- Apple-style "liquid glass" ----------------------------------------
+   Heavy blur + saturation + a touch of brightness so whatever sits behind
+   bends and blooms through. The signature Apple look comes from the edges:
+   a crisp bright specular highlight along the top, a soft dark line along the
+   bottom, and a faint inner bloom — so the panel reads like a thick, lit pane
+   of glass rather than a flat translucent rectangle. */
+.glass {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 60%, rgba(255, 255, 255, 0.07) 100%);
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 24px 70px -22px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.3),
+    inset 0 0 40px rgba(255, 255, 255, 0.05);
+}
+
+/* A diagonal sheen streak that sells the "polished glass" reflection. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.08) 42%, rgba(255, 255, 255, 0.16) 48%, transparent 56%);
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+/* Lighter weight for nested chips / pills / inputs. */
+.glass-soft {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px) saturate(150%) brightness(1.05);
+  -webkit-backdrop-filter: blur(16px) saturate(150%) brightness(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* ---- Elevated dark surface ---------------------------------------------
+   For content cards sitting on the dark page, where there's no media behind
+   to refract. Solid + legible, with a soft top highlight and depth shadow —
+   reads as a real premium card instead of a fake translucent box. */
+.surface {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 40%),
+    var(--bg-elev);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 16px 40px -18px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.surface-hover {
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+.surface-hover:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 26px 60px -22px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ---- Glass-lens cursor -------------------------------------------------
+   A frosted lens that trails the pointer; its backdrop-blur literally
+   magnifies/bends whatever sits beneath it. */
+/* A soft liquid-glass droplet that refracts the content beneath it. The
+   light-bending is a radial displacement field with center→edge falloff
+   (built in CursorLens), applied via backdrop-filter. The fill + rim here give
+   it a glossy, transparent, physically-believable surface that blends into the
+   page. Movement/physics are spring-driven in JS. */
+.cursor-lens {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 32px;
+  width: 32px;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 9999;
+  /* Very gentle: edge-ring refraction only, barely any colour shift. */
+  backdrop-filter: url(#droplet) brightness(1.02) saturate(1.05);
+  -webkit-backdrop-filter: url(#droplet) brightness(1.02) saturate(1.05);
+  /* Mostly-transparent body with a faint, HORIZONTALLY-CENTRED top sheen, so
+     the bead's squash scales it evenly instead of swinging an off-centre
+     highlight (which read as rotation). Fades out before the rim. */
+  background: radial-gradient(
+    115% 115% at 50% 24%,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(255, 255, 255, 0) 66%
+  );
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 8px rgba(255, 255, 255, 0.06),
+    0 4px 14px -6px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  will-change: transform;
+}
+@media (pointer: coarse) {
+  .cursor-lens {
+    display: none;
+  }
+}
+
+/* Interactive spotlight: GlassCard sets --mx/--my from the pointer so a soft
+   highlight follows the cursor across the surface (the "blend/bend" feel). */
+.glass-spot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.14),
+    transparent 55%
+  );
+}
+.glass-spot:hover::before {
+  opacity: 1;
+}
+
+.text-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+/* ---- Animated holographic outline --------------------------------------
+   A thin (1px) gradient ring whose hues rotate slowly around the element,
+   paired with a soft glow that cycles in sync. A refined cool spectrum
+   (violet → blue → cyan → pink) reads premium rather than "rainbow". */
+@property --rgb-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@property --rgb-glow {
+  syntax: "<color>";
+  initial-value: #6366f1;
+  inherits: false;
+}
+.rgb-frame {
+  position: relative;
+  box-shadow: 0 0 20px -7px var(--rgb-glow);
+  animation: rgb-glow 9s linear infinite;
+}
+.rgb-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px; /* outline thickness — thin */
+  background: conic-gradient(
+    from var(--rgb-angle),
+    #8b5cf6,
+    #6366f1,
+    #3b82f6,
+    #06b6d4,
+    #22d3ee,
+    #818cf8,
+    #ec4899,
+    #d946ef,
+    #8b5cf6
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: rgb-spin 9s linear infinite;
+}
+@keyframes rgb-spin {
+  to {
+    --rgb-angle: 360deg;
+  }
+}
+@keyframes rgb-glow {
+  0% {
+    --rgb-glow: #8b5cf6;
+  }
+  33% {
+    --rgb-glow: #3b82f6;
+  }
+  66% {
+    --rgb-glow: #ec4899;
+  }
+  100% {
+    --rgb-glow: #8b5cf6;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rgb-frame,
+  .rgb-frame::before {
+    animation: none;
+  }
+}
+
+/* Refined scrollbar + selection to finish the premium feel. */
+::selection {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

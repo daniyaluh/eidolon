@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+
+# Environment / secrets (real values live only in .env — never commit them)
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Uploaded files (user avatars, game art) — regenerated at runtime
+server/uploads/
+
+# Logs
+*.log
+logs/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Agent / local tooling
+.claude/
+
+# Misc / archives
+*.zip

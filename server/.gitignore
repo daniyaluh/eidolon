@@ -1,0 +1,8 @@
+node_modules
+dist
+uploads
+
+# Environment (keep .env.example, ignore real secrets)
+.env
+.env.*
+!.env.example
