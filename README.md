@@ -191,6 +191,12 @@ If a key is ever exposed, rotate it in the provider's dashboard.
 <img src="./a1.jpg" alt="Eidolon" width="1080" />
 <img src="./a2.jpg" alt="Eidolon" width="1080" />
 <img src="./a3.jpg" alt="Eidolon" width="1080" />
+<img src="./a4.jpg" alt="Eidolon" width="1080" />
+<img src="./a5.jpg" alt="Eidolon" width="1080" />
+<img src="./a6.jpg" alt="Eidolon" width="1080" />
+<img src="./a7.jpg" alt="Eidolon" width="1080" />
+<img src="./a8.jpg" alt="Eidolon" width="1080" />
+<img src="./a9.jpg" alt="Eidolon" width="1080" />
 
 ---
 
