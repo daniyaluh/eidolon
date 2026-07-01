@@ -192,7 +192,6 @@ If a key is ever exposed, rotate it in the provider's dashboard.
 <img src="./a2.jpg" alt="Eidolon" width="1080" />
 <img src="./a3.jpg" alt="Eidolon" width="1080" />
 
-
 ---
 
 <div align="center"><sub>Made by Daniyaluh with ❤️ - Eidolon</sub></div>
