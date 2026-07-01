@@ -187,7 +187,7 @@ If a key is ever exposed, rotate it in the provider's dashboard.
 
 ## Screenshot
 
-<img src="./a0.jpg" alt="Eidolon" width="120" />
+<img src="./a0.jpg" alt="Eidolon" width="720" />
 <img src="./a1.jpg" alt="Eidolon" width="120" />
 <img src="./a2.jpg" alt="Eidolon" width="120" />
 <img src="./a3.jpg" alt="Eidolon" width="120" />
